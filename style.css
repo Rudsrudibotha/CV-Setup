@@ -60,24 +60,145 @@ body {
 }
 
 .download-buttons {
-  text-align: center;
-  margin: 20px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin: 30px 0;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
 }
 
 .download-btn {
-  display: inline-block;
-  margin: 0 10px;
-  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
   background-color: #cf8a05;
   color: #fff;
   text-decoration: none;
-  font-weight: bold;
-  border-radius: 6px;
-  transition: 0.3s ease;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.95em;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  min-height: 45px;
 }
 
 .download-btn:hover {
   background: #a86702;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.social-media {
+  text-align: center;
+  margin: 30px 0;
+  padding: 20px;
+  background: #ededed;
+  border-radius: 8px;
+}
+
+.social-media h3 {
+  color: #333;
+  margin-bottom: 15px;
+  font-family: 'Rokkitt', serif;
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.social-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.social-btn.linkedin {
+  background: #0077b5;
+  color: white;
+}
+
+.social-btn.linkedin:hover {
+  background: #005885;
+  transform: translateY(-2px);
+}
+
+.social-btn.github {
+  background: #333;
+  color: white;
+}
+
+.social-btn.github:hover {
+  background: #000;
+  transform: translateY(-2px);
+}
+
+.inline-download {
+  display: inline-block;
+  margin-left: 10px;
+  padding: 4px 8px;
+  background: #cf8a05;
+  color: white;
+  text-decoration: none;
+  font-size: 0.8em;
+  border-radius: 4px;
+  transition: 0.3s ease;
+}
+
+.inline-download:hover {
+  background: #a86702;
+}
+
+.project {
+  margin-bottom: 25px;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border-left: 4px solid #cf8a05;
+}
+
+.project h3 {
+  margin: 0 0 8px 0;
+  color: #333;
+}
+
+.project h3 a {
+  color: #cf8a05;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.project h3 a:hover {
+  color: #a86702;
+  text-decoration: underline;
+}
+
+.project-tech {
+  font-size: 0.9em;
+  color: #666;
+  font-weight: 600;
+  margin: 5px 0 10px 0;
+  font-style: italic;
+}
+
+.project p:last-child {
+  margin-bottom: 0;
+  line-height: 1.5;
 }
 
 .sectionTitle h1 {
@@ -152,5 +273,47 @@ section.active {
 
   #cv {
     padding: 25px 20px;
+  }
+
+  .social-links {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .download-buttons {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .download-btn {
+    width: 100%;
+  }
+}
+
+@media print {
+  body {
+    background: white;
+  }
+  
+  #cv {
+    box-shadow: none;
+    margin: 0;
+    padding: 20px;
+    background: white;
+  }
+  
+  .download-buttons,
+  .social-media,
+  #scrollTopBtn {
+    display: none;
+  }
+  
+  .mainDetails {
+    background: white;
+    border-bottom: 2px solid #cf8a05;
+  }
+  
+  section {
+    page-break-inside: avoid;
   }
 }
