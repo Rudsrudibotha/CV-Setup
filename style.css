@@ -265,7 +265,9 @@ a:hover { text-decoration: underline; }
   text-decoration: none;
 }
 
-.certification-group {
+.certification-group,
+.job-card,
+.project {
   border: 1px solid rgba(96, 165, 250, 0.22);
   border-radius: 14px;
   padding: 14px;
@@ -273,7 +275,8 @@ a:hover { text-decoration: underline; }
   background: #0f172a;
 }
 
-.certification-group h3 {
+.certification-group h3,
+.job-card h3 {
   margin: 0 0 8px;
   color: #f8fafc;
 }
@@ -287,32 +290,11 @@ a:hover { text-decoration: underline; }
   margin-bottom: 4px;
 }
 
-/* ---------- Work Experience ---------- */
-.job-card {
-  border: 1px solid rgba(96, 165, 250, 0.22);
-  border-radius: 14px;
-  padding: 14px;
-  margin: 12px 0;
-  background: #0f172a;
-}
-
-.job-card h2 {
-  margin-top: 0;
-}
-
 .job-card p:last-child {
   margin-bottom: 0;
 }
 
 /* ---------- Projects ---------- */
-.project {
-  border: 1px solid rgba(96, 165, 250, 0.22);
-  border-radius: 14px;
-  padding: 14px;
-  margin: 12px 0;
-  background: #0f172a;
-}
-
 .project-tech {
   font-size: 13px;
   color: #a5b4fc;
