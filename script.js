@@ -33,7 +33,9 @@ const cvData = {
         "Object-oriented programming (C#, .NET)",
         "Version control and collaboration (Git, GitHub)",
         "VR/AR development and 3D modelling",
-        "Software testing and quality assurance"
+        "Software testing and quality assurance",
+        "Nintex RPA, Nintex K2, and Nintex Process Automation",
+        "Freshdesk, Freshservices, Device42, and Nintex Sharepoint"
       ]
     },
     {
@@ -65,7 +67,9 @@ const cvData = {
         "Developed responsive websites (HTML, CSS, JavaScript)",
         "Built and managed databases using SQL and SQL Server",
         "Designed a basic software testing framework",
-        "Used GitHub for version control and team collaboration"
+        "Used GitHub for version control and team collaboration",
+        "Nintex K2",
+        "Freshworks Freshservices"
       ]
     },
     {
@@ -79,7 +83,7 @@ const cvData = {
     },
     {
       title: "Key Skills",
-      pills: ["C#, SQL, HTML, CSS", "JavaScript (basic), Node.js", "GitHub, SQL Server, VS Code", "Agile, Scrum", "Software Testing & Development", "Full Stack Web Development", "Database Management", "Project & Client Management"]
+      pills: ["C#, SQL, HTML, CSS", "JavaScript (basic), Node.js", "GitHub, SQL Server, VS Code", "Agile, Scrum", "Software Testing & Development", "Full Stack Web Development", "Database Management", "Project & Client Management", "Nintex RPA", "Nintex K2", "Freshdesk and Freshservices", "Device42", "Nintex Sharepoint", "Nintex Process Automation"]
     }
   ]
 };
