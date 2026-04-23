@@ -31,7 +31,9 @@ const cvData = {
         "Workflow automation and low-code development (Nintex K2, Nintex Automation Cloud, OutSystems)",
         "IT service management and customer experience platforms (Freshdesk, Freshservice)",
         "Asset discovery and dependency mapping (Device42)",
-        "Microsoft Azure Fundamentals and SharePoint process automation",
+        "Microsoft Azure Fundamentals, Azure virtual machines and SharePoint process automation",
+        "K2 SmartForms, K2 SmartObjects, SQL views and SQL stored procedures",
+        "ITSM workflows, SLA policies, knowledge articles and asset management",
         "Full-stack web development (HTML, CSS, JavaScript), C#, .NET, SQL Server and MySQL",
         "Software testing, quality assurance, Git/GitHub, Agile and Scrum"
       ]
@@ -52,7 +54,7 @@ const cvData = {
     {
       title: "Work Experience",
       items: [
-        { heading: "Software Engineering Intern / Automation Engineer Intern - First Technology Digital", detail: "Feb 2026 - Present", text: ["Support software engineering internship projects focused on business process automation and systems integration using Nintex RPA, Nintex K2, Freshdesk, Freshservice, OutSystems and Azure.", "Assist with requirements review, workflow configuration, testing and documentation for automation solutions and service-management processes.", "Completed 29 platform certifications across Nintex, Freshworks, Device42 and Microsoft Azure Fundamentals to strengthen delivery capability."] },
+        { heading: "Software Engineering Intern / Automation Engineer Intern - First Technology Digital", detail: "Feb 2026 - Present", text: ["Built and completed an internal peer review workflow using K2 SmartForms, SmartObjects and SQL views, including role-based initiation, peer nominations and final review reporting.", "Configured automated task routing, reminder and escalation logic, plus encrypted SQL stored procedure submissions for peer feedback.", "Prepared and tested service-management workflows covering incidents, service requests, knowledge articles, approvals, ticket handling, assets, reports and trial environment setup.", "Completed 29 platform certifications across automation, service management, asset management and cloud fundamentals to strengthen delivery capability."] },
         { heading: "Marketing & Digital Administrator - Adorable Bekkies Academy", detail: "Apr 2023 - Dec 2025", text: ["Managed business marketing, digital presence and website maintenance for an education business.", "Maintained the Adorable Bekkies Academy website and supported online communication with clients and parents.", "Coordinated digital administration tasks to improve consistency across business communication and customer-facing content."] },
         { heading: "Student Advisor & Events Planner - Belgium Campus ITversity", detail: "Jan 2022 - Apr 2023", text: ["Delivered school, expo and open-day presentations that generated 75+ leads per event.", "Coordinated recruitment events, career days and campus activities while supporting student engagement initiatives.", "Managed stakeholder communication with prospective students, schools and internal campus teams."] },
         { heading: "Admin Manager - Adorable Bekkies Academy", detail: "Jan 2019 - Dec 2021", text: ["Streamlined administration, operations and HR processes for a growing education business.", "Reduced operational costs by 18% through planning, supplier coordination and efficiency improvements.", "Managed budgeting, purchasing and staff development programs to support daily operations."] },
@@ -81,7 +83,7 @@ const cvData = {
     },
     {
       title: "Key Skills",
-      pills: ["Automation Engineering", "Business Process Automation", "Nintex RPA", "Nintex K2", "Nintex Automation Cloud", "Nintex Process Automation", "Freshdesk", "Freshservice", "Device42", "SharePoint", "Microsoft Azure Fundamentals", "OutSystems", "C#", ".NET", "SQL Server", "MySQL", "HTML", "CSS", "JavaScript", "GitHub", "Agile", "Scrum", "Software Testing"]
+      pills: ["Automation Engineering", "Business Process Automation", "Nintex RPA", "Nintex K2", "K2 SmartForms", "K2 SmartObjects", "Nintex Automation Cloud", "Nintex Process Automation", "Freshdesk", "Freshservice", "Device42", "SharePoint", "Microsoft Azure Fundamentals", "Azure Virtual Machines", "OutSystems", "C#", ".NET", "SQL Server", "SQL Views", "SQL Stored Procedures", "MySQL", "HTML", "CSS", "JavaScript", "GitHub", "Agile", "Scrum", "Software Testing", "ITSM Workflows", "SLA Policies", "Knowledge Base Management", "Asset Management", "Workflow Automator"]
     }
   ]
 };
@@ -301,7 +303,7 @@ async function generateCvPdf() {
     section.items.forEach((item) => {
       if (item.heading) {
         setTextColor(doc, colors.text);
-        doc.setFont("helvetica", section.title === "Work Experience" || regularHeadingItems.has(item.heading) ? "normal" : "bold");
+        doc.setFont("helvetica", section.title === "Education" || section.title === "Work Experience" || regularHeadingItems.has(item.heading) ? "normal" : "bold");
         doc.setFontSize(9.5);
         y = drawWrappedText(doc, item.heading, bodyX, y, bodyWidth, 4.2);
       }
