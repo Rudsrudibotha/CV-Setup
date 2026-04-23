@@ -126,15 +126,15 @@ async function generateCvPdf() {
   const page = { width: 210, height: 297, margin: 12 };
   const contentWidth = page.width - page.margin * 2;
   const colors = {
-    page: [11, 15, 25],
-    card: [17, 24, 39],
-    cardAlt: [15, 23, 42],
-    border: [61, 92, 138],
-    text: [229, 231, 235],
-    muted: [203, 213, 245],
-    subtle: [148, 163, 184],
-    accent: [147, 197, 253],
-    link: [96, 165, 250],
+    page: [255, 255, 255],
+    card: [255, 255, 255],
+    cardAlt: [247, 249, 252],
+    border: [190, 198, 210],
+    text: [17, 24, 39],
+    muted: [55, 65, 81],
+    subtle: [100, 116, 139],
+    accent: [45, 93, 145],
+    link: [37, 99, 235],
     purple: [124, 58, 237]
   };
 
@@ -308,10 +308,10 @@ async function generateCvPdf() {
         x = page.margin + 49;
         y += 8;
       }
-      doc.setFillColor(45, 31, 80);
-      doc.setDrawColor(...colors.purple);
+      doc.setFillColor(245, 243, 255);
+      doc.setDrawColor(196, 181, 253);
       doc.roundedRect(x, y - 5, pillWidth, 6.5, 3, 3, "FD");
-      setTextColor(doc, colors.text);
+      setTextColor(doc, [76, 29, 149]);
       doc.text(pill, x + 4, y - 0.6);
       x += pillWidth + 3;
     });
@@ -320,7 +320,7 @@ async function generateCvPdf() {
   }
 
   paintPage();
-  drawCard(page.margin, y, contentWidth, 42);
+  drawCard(page.margin, y, contentWidth, 48);
   try {
     const imageData = await loadImageAsDataUrl("pic.jpg");
     doc.addImage(imageData, "JPEG", page.margin + 5, y + 5, 28, 28);
@@ -331,20 +331,21 @@ async function generateCvPdf() {
 
   setTextColor(doc, colors.text);
   doc.setFont("helvetica", "bold");
-  doc.setFontSize(25);
-  doc.text(cvData.name, page.margin + 39, y + 15);
+  doc.setFontSize(24);
+  doc.text(cvData.name, page.margin + 39, y + 14);
   setTextColor(doc, colors.accent);
   doc.setFontSize(10);
-  doc.text(cvData.title.toUpperCase(), page.margin + 39, y + 23);
+  doc.text(cvData.title.toUpperCase(), page.margin + 39, y + 22);
   doc.setDrawColor(...colors.border);
-  doc.line(page.margin + 39, y + 28, page.width - page.margin - 5, y + 28);
+  doc.line(page.margin + 39, y + 27, page.width - page.margin - 5, y + 27);
   setTextColor(doc, colors.muted);
   doc.setFont("helvetica", "normal");
-  doc.setFontSize(8.8);
-  doc.text(`Location: ${cvData.location} | Phone: ${cvData.phone} | Email:`, page.margin + 39, y + 34);
+  doc.setFontSize(8.6);
+  doc.text(`Location: ${cvData.location} | Phone: ${cvData.phone}`, page.margin + 39, y + 33);
+  doc.text("Email:", page.margin + 39, y + 38);
   setTextColor(doc, colors.link);
-  drawLinkedText(doc, cvData.email, `mailto:${cvData.email}`, page.margin + 119, y + 34);
-  y += 48;
+  drawLinkedText(doc, cvData.email, `mailto:${cvData.email}`, page.margin + 51, y + 38);
+  y += 54;
 
   drawCard(page.margin, y, contentWidth, 17);
   doc.setFont("helvetica", "bold");
