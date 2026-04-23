@@ -222,6 +222,7 @@ a:hover { text-decoration: underline; }
   gap: 20px;
   padding: 18px 0;
   border-top: 1px solid rgba(96, 165, 250, 0.18);
+  transition: background 0.15s ease, margin-left 0.15s ease, padding-left 0.15s ease;
 }
 
 .sectionTitle h1 {
@@ -320,7 +321,9 @@ a:hover { text-decoration: underline; }
 }
 
 /* ---------- Active Section Highlight ---------- */
-#mainArea section.active {
+#mainArea section.active,
+#mainArea section:hover,
+#mainArea section:focus-within {
   background: linear-gradient(
     90deg,
     rgba(37,99,235,0.12),

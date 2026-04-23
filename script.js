@@ -446,11 +446,32 @@ document.addEventListener("DOMContentLoaded", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 
-  document.addEventListener("scroll", () => {
-    const sections = document.querySelectorAll("section");
+  const sections = document.querySelectorAll("#mainArea section");
+  let hoveredSection = null;
+
+  const updateActiveSection = () => {
+    if (hoveredSection) return;
     sections.forEach((sec) => {
       const rect = sec.getBoundingClientRect();
       sec.classList.toggle("active", rect.top >= 0 && rect.top < window.innerHeight / 2);
     });
+  };
+
+  sections.forEach((sec) => {
+    sec.addEventListener("mouseenter", () => {
+      hoveredSection = sec;
+      sections.forEach((section) => section.classList.toggle("active", section === sec));
+    });
+
+    sec.addEventListener("mouseleave", () => {
+      hoveredSection = null;
+      updateActiveSection();
+    });
   });
+
+  document.addEventListener("scroll", () => {
+    updateActiveSection();
+  });
+
+  updateActiveSection();
 });
