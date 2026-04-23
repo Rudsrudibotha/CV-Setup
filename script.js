@@ -1,6 +1,6 @@
 const cvData = {
   name: "Rudi Botha",
-  title: "Software Engineer",
+  title: "Automation Engineer | Software Engineer",
   location: "254 Glover Avenue",
   phone: "+27 73 151 0877",
   email: "rudsrudibotha@gmail.com",
@@ -9,16 +9,15 @@ const cvData = {
   github: "https://github.com/Rudsrudibotha",
   sections: [
     {
-      title: "About Me",
+      title: "Professional Summary",
       body: [
-        "I'm a passionate and driven Software Engineering student, currently specializing in Software Engineering. My journey has taken me through sales, admin, and education and now into the exciting world of innovation. I love solving problems, working with people, and creating systems that actually make a difference."
+        "Automation-focused Software Engineering student completing a Bachelor of Computing (NQF 8), with hands-on exposure to business process automation, workflow automation, service management and systems integration. Skilled in Nintex RPA, Nintex K2, Freshdesk, Freshservice, Device42, SharePoint, SQL, C#, JavaScript, HTML/CSS and Microsoft Azure Fundamentals. Completed 29 platform certifications and applies customer-facing, administration and process improvement experience to deliver practical automation solutions."
       ]
     },
     {
-      title: "Languages & Interests",
+      title: "Languages & Links",
       body: [
-        "Languages: Afrikaans (Native), English (Fluent)",
-        "Interests: Tech innovation, Rugby, Aquaponics, Learning & Development"
+        "Languages: Afrikaans (Native), English (Fluent)"
       ],
       links: [
         { label: "LinkedIn: Rudi Botha", url: "https://www.linkedin.com/in/rudi-botha-8342bb159/" },
@@ -26,16 +25,15 @@ const cvData = {
       ]
     },
     {
-      title: "Technical Skills",
+      title: "Core Skills",
       bullets: [
-        "Full-stack web development (HTML, CSS, JavaScript)",
-        "Database design and management (SQL Server, MySQL)",
-        "Object-oriented programming (C#, .NET)",
-        "Version control and collaboration (Git, GitHub)",
-        "VR/AR development and 3D modelling",
-        "Software testing and quality assurance",
-        "Nintex RPA, Nintex K2, and Nintex Process Automation",
-        "Freshdesk, Freshservices, Device42, and Nintex Sharepoint"
+        "Business process automation and robotic process automation (Nintex RPA)",
+        "Workflow automation and low-code development (Nintex K2, Nintex Automation Cloud, OutSystems)",
+        "IT service management and customer experience platforms (Freshdesk, Freshservice)",
+        "Asset discovery and dependency mapping (Device42)",
+        "Microsoft Azure Fundamentals, Microsoft BizTalk and SharePoint process automation",
+        "Full-stack web development (HTML, CSS, JavaScript), C#, .NET, SQL Server and MySQL",
+        "Software testing, quality assurance, Git/GitHub, Agile and Scrum"
       ]
     },
     {
@@ -54,11 +52,11 @@ const cvData = {
     {
       title: "Work Experience",
       items: [
-        { heading: "Software Engineering Internship - First Technology Digital", detail: "Feb 2026 - Present", text: ["Working with Business Process Automation and Systems Integration Solutions including Robotic Process Automation, Outsystems low-code platform, Nintex, Freshdesk (CX & EX), Microsoft BizTalk and Azure."] },
-        { heading: "Marketing & Digital Administrator - Adorable Bekkies Academy", detail: "Apr 2023 - Dec 2025", text: ["Responsible for business marketing and digital presence.", "Designed and maintain the company website Adorable Bekkies Academy.", "Reference: Danie Potgieter | (+27) 082 558 2288 | adorablebekkies.academy@gmail.com"] },
-        { heading: "Student Advisor & Events Planner - Belgium Campus ITversity", detail: "Jan 2022 - Apr 2023", text: ["Led presentations and organized campus events.", "Supported recruitment efforts and coordinated major events, including career days and fun days.", "Delivered presentations at schools, expos, and open days, generating 75+ leads per event.", "References: Elaine Van Wyk | (+27) 011 593 5368 | vanwyk.e@belgiumcampus.ac.za; Pieter Oosthuizen | (+27) 011 593 5368 | Oosthuizen.p@belgiumcampus.ac.za"] },
-        { heading: "Admin Manager - Adorable Bekkies Academy", detail: "Jan 2019 - Dec 2021", text: ["Streamlined operations and HR.", "Reduced operational costs by 18% through planning and efficiency improvements.", "Managed budgeting, purchasing, and staff development programs.", "Reference: Danie Potgieter | (+27) 82 558 2288 | adorablebekkies.academy@gmail.com"] },
-        { heading: "Travel Expert - Flight Centre", detail: "Mar 2016 - Dec 2018", text: ["Exceeded sales targets.", "Managed 50+ client bookings per month and built a strong returning client base.", "Used Amadeus system for bookings and to manage existing bookings.", "Reference: Deon Prinsloo | (+27) 012 548 7180 | Deon.Prinsloo@Flightcentre.co.za"] }
+        { heading: "Automation Engineer Intern / Software Engineering Intern - First Technology Digital", detail: "Feb 2026 - Present", text: ["Support business process automation and systems integration solutions using Nintex RPA, Nintex K2, Freshdesk, Freshservice, OutSystems, Microsoft BizTalk and Azure.", "Completed 29 platform certifications across Nintex, Freshworks, Device42 and Microsoft Azure Fundamentals to strengthen automation delivery capability.", "Apply workflow analysis, service management and low-code automation knowledge to improve process visibility and operational efficiency."] },
+        { heading: "Marketing & Digital Administrator - Adorable Bekkies Academy", detail: "Apr 2023 - Dec 2025", text: ["Managed business marketing, digital presence and website maintenance for an education business.", "Maintained the Adorable Bekkies Academy website and supported online communication with clients and parents.", "Coordinated digital administration tasks to improve consistency across business communication and customer-facing content."] },
+        { heading: "Student Advisor & Events Planner - Belgium Campus ITversity", detail: "Jan 2022 - Apr 2023", text: ["Delivered school, expo and open-day presentations that generated 75+ leads per event.", "Coordinated recruitment events, career days and campus activities while supporting student engagement initiatives.", "Managed stakeholder communication with prospective students, schools and internal campus teams."] },
+        { heading: "Admin Manager - Adorable Bekkies Academy", detail: "Jan 2019 - Dec 2021", text: ["Streamlined administration, operations and HR processes for a growing education business.", "Reduced operational costs by 18% through planning, supplier coordination and efficiency improvements.", "Managed budgeting, purchasing and staff development programs to support daily operations."] },
+        { heading: "Travel Expert - Flight Centre", detail: "Mar 2016 - Dec 2018", text: ["Exceeded sales targets while managing 50+ client bookings per month.", "Built a strong returning client base through accurate booking management, customer service and travel consultation.", "Used Amadeus to create, manage and update client bookings."] }
       ]
     },
     {
@@ -69,7 +67,7 @@ const cvData = {
         "Designed a basic software testing framework",
         "Used GitHub for version control and team collaboration",
         "Nintex K2",
-        "Freshworks Freshservices"
+        "Freshworks Freshservice"
       ]
     },
     {
@@ -83,7 +81,7 @@ const cvData = {
     },
     {
       title: "Key Skills",
-      pills: ["C#, SQL, HTML, CSS", "JavaScript (basic), Node.js", "GitHub, SQL Server, VS Code", "Agile, Scrum", "Software Testing & Development", "Full Stack Web Development", "Database Management", "Project & Client Management", "Nintex RPA", "Nintex K2", "Freshdesk and Freshservices", "Device42", "Nintex Sharepoint", "Nintex Process Automation"]
+      pills: ["Automation Engineering", "Business Process Automation", "Nintex RPA", "Nintex K2", "Nintex Automation Cloud", "Nintex Process Automation", "Freshdesk", "Freshservice", "Device42", "SharePoint", "Microsoft Azure Fundamentals", "Microsoft BizTalk", "OutSystems", "C#", ".NET", "SQL Server", "MySQL", "HTML", "CSS", "JavaScript", "GitHub", "Agile", "Scrum", "Software Testing"]
     }
   ]
 };
