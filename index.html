@@ -13,14 +13,19 @@
 <!-- ✅ ADD: Sticky Navbar (does not change existing text) -->
 <nav class="cv-nav">
   <div class="cv-nav-inner">
-    <div class="cv-nav-links">
+    <button class="cv-nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="cvNavLinks">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="cv-nav-links" id="cvNavLinks">
       <a href="#about">About</a>
       <a href="#contact">Languages</a>
       <a href="#skills">Skills</a>
       <a href="#education">Education</a>
       <a href="#experience">Experience</a>
-      <a href="#projects">Projects</a>
-      <a href="#featured-projects">Featured</a>
+      <a href="#projects">Tech Experience</a>
+      <a href="#featured-projects">Projects</a>
       <a href="#key-skills">Key Skills</a>
     </div>
   </div>
@@ -227,7 +232,7 @@
       </section>
 
       <section id="projects">
-        <div class="sectionTitle"><h1>Projects & Tech Experience</h1></div>
+        <div class="sectionTitle"><h1>Tech Experience</h1></div>
         <div class="sectionContent">
           <ul>
             <li>Developed responsive websites (HTML, CSS, JavaScript)</li>
@@ -241,7 +246,7 @@
       </section>
 
       <section id="featured-projects">
-        <div class="sectionTitle"><h1>Featured Projects</h1></div>
+        <div class="sectionTitle"><h1>Projects</h1></div>
         <div class="sectionContent">
           <div class="project">
             <h3><a href="https://github.com/ReinardPieters/VR_Interactive_Modelling_Application" target="_blank">VR Interactive Modelling Application</a></h3>
@@ -297,6 +302,6 @@
 <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="script.js?v=20260423-hover-highlight"></script>
+<script src="script.js?v=20260423-mobile-menu-project-labels"></script>
 </body>
 </html>

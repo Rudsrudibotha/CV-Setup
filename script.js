@@ -62,7 +62,7 @@ const cvData = {
       ]
     },
     {
-      title: "Projects & Tech Experience",
+      title: "Tech Experience",
       bullets: [
         "Developed responsive websites (HTML, CSS, JavaScript)",
         "Built and managed databases using SQL and SQL Server",
@@ -73,7 +73,7 @@ const cvData = {
       ]
     },
     {
-      title: "Featured Projects",
+      title: "Projects",
       projects: [
         { heading: "VR Interactive Modelling Application", detail: "Unity, C#, VR Development", url: "https://github.com/ReinardPieters/VR_Interactive_Modelling_Application", text: "Collaborative VR application for interactive 3D modelling. Features immersive virtual reality interface for creating and manipulating 3D objects in real-time." },
         { heading: "Adorable Bekkies Academy Website", detail: "HTML, CSS, JavaScript, Web Design", url: "https://adorablebekkiesacademy.com", text: "Designed and developed complete business website with modern responsive design, improving digital presence and customer engagement." },
@@ -428,6 +428,9 @@ async function generateCvPdf() {
 document.addEventListener("DOMContentLoaded", () => {
   const downloadCv = document.getElementById("downloadCv");
   const btn = document.getElementById("backToTop");
+  const nav = document.querySelector(".cv-nav");
+  const navToggle = document.querySelector(".cv-nav-toggle");
+  const navLinks = document.querySelectorAll(".cv-nav-links a");
 
   downloadCv.addEventListener("click", () => {
     generateCvPdf().catch((error) => {
@@ -444,6 +447,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   btn.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  navToggle.addEventListener("click", () => {
+    const isOpen = nav.classList.toggle("open");
+    navToggle.setAttribute("aria-expanded", String(isOpen));
+  });
+
+  navLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      nav.classList.remove("open");
+      navToggle.setAttribute("aria-expanded", "false");
+    });
   });
 
   const sections = document.querySelectorAll("#mainArea section");
