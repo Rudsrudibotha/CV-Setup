@@ -274,10 +274,11 @@ async function generateCvPdf() {
     const top = beginSection(section);
     const bodyX = page.margin + 49;
     const bodyWidth = contentWidth - 54;
+    const regularHeadingItems = new Set(["Certifications", "University of South Africa", "Freshworks", "Microsoft", "Nintex"]);
     section.items.forEach((item) => {
       if (item.heading) {
         setTextColor(doc, colors.text);
-        doc.setFont("helvetica", "bold");
+        doc.setFont("helvetica", section.title === "Work Experience" || regularHeadingItems.has(item.heading) ? "normal" : "bold");
         doc.setFontSize(9.5);
         y = drawWrappedText(doc, item.heading, bodyX, y, bodyWidth, 4.2);
       }
