@@ -1,50 +1,409 @@
-function toggleTheme() {
-  document.body.classList.toggle("dark-mode");
+const cvData = {
+  name: "Rudi Botha",
+  title: "Software Engineer",
+  location: "254 Glover Avenue",
+  phone: "+27 73 151 0877",
+  email: "rudsrudibotha@gmail.com",
+  onlineCv: "https://rudsrudibotha.github.io/CV-Setup/#experience",
+  linkedin: "https://www.linkedin.com/in/rudi-botha-8342bb159/",
+  github: "https://github.com/Rudsrudibotha",
+  sections: [
+    {
+      title: "About Me",
+      body: [
+        "I'm a passionate and driven Software Engineering student, currently specializing in Software Engineering. My journey has taken me through sales, admin, and education and now into the exciting world of innovation. I love solving problems, working with people, and creating systems that actually make a difference."
+      ]
+    },
+    {
+      title: "Languages & Interests",
+      body: [
+        "Languages: Afrikaans (Native), English (Fluent)",
+        "Interests: Tech innovation, Rugby, Aquaponics, Learning & Development"
+      ],
+      links: [
+        { label: "LinkedIn: Rudi Botha", url: "https://www.linkedin.com/in/rudi-botha-8342bb159/" },
+        { label: "GitHub: Rudsrudibotha", url: "https://github.com/Rudsrudibotha" }
+      ]
+    },
+    {
+      title: "Technical Skills",
+      bullets: [
+        "Full-stack web development (HTML, CSS, JavaScript)",
+        "Database design and management (SQL Server, MySQL)",
+        "Object-oriented programming (C#, .NET)",
+        "Version control and collaboration (Git, GitHub)",
+        "VR/AR development and 3D modelling",
+        "Software testing and quality assurance"
+      ]
+    },
+    {
+      title: "Education",
+      items: [
+        { heading: "Belgium Campus ITversity", detail: "Bachelor of Computing (NQF 8), 2023 - Present", text: ["1st Year: Business Management 181", "2nd Year: Software Testing", "3rd Year: User Experience Design"] },
+        { heading: "University of South Africa", detail: "Certificate in Business & Economic Management (NQF 5), 2019" },
+        { heading: "Pretoria North High School", detail: "Matric Certificate, 2014" }
+      ]
+    },
+    {
+      title: "Work Experience",
+      items: [
+        { heading: "Software Engineering Internship - First Technology Digital", detail: "Feb 2026 - Present", text: ["Working with Business Process Automation and Systems Integration Solutions including Robotic Process Automation, Outsystems low-code platform, Nintex, Freshdesk (CX & EX), Microsoft BizTalk and Azure."] },
+        { heading: "Marketing & Digital Administrator - Adorable Bekkies Academy", detail: "Apr 2023 - Dec 2025", text: ["Responsible for business marketing and digital presence.", "Designed and maintain the company website Adorable Bekkies Academy.", "Reference: Danie Potgieter | (+27) 082 558 2288 | adorablebekkies.academy@gmail.com"] },
+        { heading: "Student Advisor & Events Planner - Belgium Campus ITversity", detail: "Jan 2022 - Apr 2023", text: ["Led presentations and organized campus events.", "Supported recruitment efforts and coordinated major events, including career days and fun days.", "Delivered presentations at schools, expos, and open days, generating 75+ leads per event.", "References: Elaine Van Wyk | (+27) 011 593 5368 | vanwyk.e@belgiumcampus.ac.za; Pieter Oosthuizen | (+27) 011 593 5368 | Oosthuizen.p@belgiumcampus.ac.za"] },
+        { heading: "Admin Manager - Adorable Bekkies Academy", detail: "Jan 2019 - Dec 2021", text: ["Streamlined operations and HR.", "Reduced operational costs by 18% through planning and efficiency improvements.", "Managed budgeting, purchasing, and staff development programs.", "Reference: Danie Potgieter | (+27) 82 558 2288 | adorablebekkies.academy@gmail.com"] },
+        { heading: "Travel Expert - Flight Centre", detail: "Mar 2016 - Dec 2018", text: ["Exceeded sales targets.", "Managed 50+ client bookings per month and built a strong returning client base.", "Used Amadeus system for bookings and to manage existing bookings.", "Reference: Deon Prinsloo | (+27) 012 548 7180 | Deon.Prinsloo@Flightcentre.co.za"] }
+      ]
+    },
+    {
+      title: "Projects & Tech Experience",
+      bullets: [
+        "Developed responsive websites (HTML, CSS, JavaScript)",
+        "Built and managed databases using SQL and SQL Server",
+        "Designed a basic software testing framework",
+        "Used GitHub for version control and team collaboration"
+      ]
+    },
+    {
+      title: "Featured Projects",
+      projects: [
+        { heading: "VR Interactive Modelling Application", detail: "Unity, C#, VR Development", url: "https://github.com/ReinardPieters/VR_Interactive_Modelling_Application", text: "Collaborative VR application for interactive 3D modelling. Features immersive virtual reality interface for creating and manipulating 3D objects in real-time." },
+        { heading: "Adorable Bekkies Academy Website", detail: "HTML, CSS, JavaScript, Web Design", url: "https://adorablebekkiesacademy.com", text: "Designed and developed complete business website with modern responsive design, improving digital presence and customer engagement." },
+        { heading: "Z & F Security Solutions", detail: "Web Development, Business Website", url: "https://github.com/Rudsrudibotha/Z-FSecurity", text: "Professional website for security company providing protection services for businesses, homes, and events across South Africa." },
+        { heading: "PRG-User-Login Web App", detail: "Java Servlet, JSP, PostgreSQL, Maven", url: "https://github.com/Rudsrudibotha/WellnessManager", text: "Secure user authentication system with registration, login, password hashing, and session management using Java EE and PostgreSQL database." }
+      ]
+    },
+    {
+      title: "Key Skills",
+      pills: ["C#, SQL, HTML, CSS", "JavaScript (basic), Node.js", "GitHub, SQL Server, VS Code", "Agile, Scrum", "Software Testing & Development", "Full Stack Web Development", "Database Management", "Project & Client Management"]
+    }
+  ]
+};
+
+function setTextColor(doc, color) {
+  doc.setTextColor(color[0], color[1], color[2]);
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-  const sections = document.querySelectorAll("section");
-  sections.forEach(section => {
-    const toggle = document.createElement("button");
-    toggle.textContent = "Hide Section";
-    toggle.className = "toggle-btn";
-    section.insertBefore(toggle, section.children[1]);
+function drawWrappedText(doc, text, x, y, width, lineHeight) {
+  const lines = doc.splitTextToSize(text, width);
+  doc.text(lines, x, y);
+  return y + lines.length * lineHeight;
+}
 
-    toggle.addEventListener("click", () => {
-      const content = section.querySelector(".sectionContent");
-      if (content.style.display === "none") {
-        content.style.display = "block";
-        toggle.textContent = "Hide Section";
-      } else {
-        content.style.display = "none";
-        toggle.textContent = "Show Section";
+function drawLinkedText(doc, text, url, x, y) {
+  doc.textWithLink(text, x, y, { url });
+  const textWidth = doc.getTextWidth(text);
+  doc.line(x, y + 1.2, x + textWidth, y + 1.2);
+  return x + textWidth;
+}
+
+function estimateTextHeight(doc, text, width, lineHeight) {
+  return doc.splitTextToSize(text, width).length * lineHeight;
+}
+
+function loadImageAsDataUrl(src) {
+  return fetch(src)
+    .then((response) => response.blob())
+    .then((blob) => new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.readAsDataURL(blob);
+    }));
+}
+
+async function generateCvPdf() {
+  const downloadCv = document.getElementById("downloadCv");
+  if (!window.jspdf) {
+    window.alert("The PDF generator is still loading. Please try again in a moment.");
+    return;
+  }
+
+  const originalText = downloadCv.textContent;
+  downloadCv.textContent = "Preparing CV...";
+  downloadCv.disabled = true;
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: "mm", format: "a4", compress: true });
+  const page = { width: 210, height: 297, margin: 12 };
+  const contentWidth = page.width - page.margin * 2;
+  const colors = {
+    page: [11, 15, 25],
+    card: [17, 24, 39],
+    cardAlt: [15, 23, 42],
+    border: [61, 92, 138],
+    text: [229, 231, 235],
+    muted: [203, 213, 245],
+    subtle: [148, 163, 184],
+    accent: [147, 197, 253],
+    link: [96, 165, 250],
+    purple: [124, 58, 237]
+  };
+
+  let y = page.margin;
+  let totalPages = 1;
+
+  function paintPage() {
+    doc.setFillColor(...colors.page);
+    doc.rect(0, 0, page.width, page.height, "F");
+  }
+
+  function addPage() {
+    doc.addPage();
+    totalPages += 1;
+    y = page.margin;
+    paintPage();
+  }
+
+  function ensureSpace(height) {
+    if (y + height > page.height - page.margin - 6) {
+      addPage();
+    }
+  }
+
+  function drawCard(x, top, width, height, fill = colors.card) {
+    doc.setFillColor(...fill);
+    doc.roundedRect(x, top, width, height, 3, 3, "F");
+    doc.setDrawColor(...colors.border);
+    doc.roundedRect(x, top, width, height, 3, 3, "S");
+  }
+
+  function drawSectionTitle(title, top) {
+    setTextColor(doc, colors.accent);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(9);
+    doc.text(title.toUpperCase(), page.margin + 5, top + 6);
+  }
+
+  function sectionHeight(section) {
+    const bodyX = page.margin + 49;
+    const bodyWidth = contentWidth - 54;
+    let height = 15;
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9.4);
+
+    if (section.body) {
+      section.body.forEach((text) => {
+        height += estimateTextHeight(doc, text, bodyWidth, 4.4) + 1;
+      });
+    }
+    if (section.links) height += section.links.length * 4.8 + 1;
+    if (section.bullets) height += section.bullets.reduce((sum, bullet) => sum + estimateTextHeight(doc, bullet, bodyWidth - 4, 4.2), 0) + 2;
+    if (section.items) {
+      section.items.forEach((item) => {
+        height += estimateTextHeight(doc, item.heading, bodyWidth, 4.2) + 4.2;
+        (item.text || []).forEach((text) => {
+          height += estimateTextHeight(doc, text, bodyWidth, 4) + 0.5;
+        });
+        height += 6;
+      });
+    }
+    if (section.projects) height += section.projects.length * 25 + 3;
+    if (section.pills) height += 28;
+    return Math.max(height, 25);
+  }
+
+  function beginSection(section) {
+    const height = sectionHeight(section);
+    ensureSpace(height + 5);
+    const top = y;
+    drawCard(page.margin, top, contentWidth, height);
+    drawSectionTitle(section.title, top);
+    y = top + 14;
+    return top;
+  }
+
+  function endSection(top) {
+    y = Math.max(y, top + 20) + 5;
+  }
+
+  function drawBodySection(section) {
+    const top = beginSection(section);
+    const bodyX = page.margin + 49;
+    const bodyWidth = contentWidth - 54;
+    setTextColor(doc, colors.text);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9.4);
+    (section.body || []).forEach((text) => {
+      y = drawWrappedText(doc, text, bodyX, y, bodyWidth, 4.4) + 1;
+    });
+    (section.links || []).forEach((link) => {
+      setTextColor(doc, colors.link);
+      doc.setFont("helvetica", "bold");
+      drawLinkedText(doc, link.label, link.url, bodyX, y);
+      y += 4.8;
+    });
+    endSection(top);
+  }
+
+  function drawBulletsSection(section) {
+    const top = beginSection(section);
+    const bodyX = page.margin + 49;
+    const bodyWidth = contentWidth - 58;
+    setTextColor(doc, colors.text);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9.4);
+    section.bullets.forEach((bullet) => {
+      doc.circle(bodyX, y - 1.2, 0.65, "F");
+      y = drawWrappedText(doc, bullet, bodyX + 4, y, bodyWidth, 4.2);
+    });
+    endSection(top);
+  }
+
+  function drawItemsSection(section) {
+    const top = beginSection(section);
+    const bodyX = page.margin + 49;
+    const bodyWidth = contentWidth - 54;
+    section.items.forEach((item) => {
+      setTextColor(doc, colors.text);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(9.5);
+      y = drawWrappedText(doc, item.heading, bodyX, y, bodyWidth, 4.2);
+      setTextColor(doc, colors.subtle);
+      doc.setFont("helvetica", "italic");
+      doc.setFontSize(8.6);
+      y = drawWrappedText(doc, item.detail, bodyX, y, bodyWidth, 4) + 0.5;
+      setTextColor(doc, colors.text);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8.9);
+      (item.text || []).forEach((text) => {
+        y = drawWrappedText(doc, text, bodyX, y, bodyWidth, 4) + 0.5;
+      });
+      y += 3;
+    });
+    endSection(top);
+  }
+
+  function drawProjectsSection(section) {
+    const top = beginSection(section);
+    const bodyX = page.margin + 49;
+    const bodyWidth = contentWidth - 58;
+    section.projects.forEach((project) => {
+      drawCard(bodyX - 2, y - 4, bodyWidth + 6, 22, colors.cardAlt);
+      setTextColor(doc, colors.link);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(9);
+      drawLinkedText(doc, project.heading, project.url, bodyX, y);
+      y += 4.2;
+      setTextColor(doc, colors.subtle);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(8.3);
+      doc.text(project.detail, bodyX, y);
+      y += 4.1;
+      setTextColor(doc, colors.text);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8.6);
+      y = drawWrappedText(doc, project.text, bodyX, y, bodyWidth, 3.8) + 6;
+    });
+    endSection(top);
+  }
+
+  function drawPillsSection(section) {
+    const top = beginSection(section);
+    let x = page.margin + 49;
+    const maxX = page.width - page.margin - 5;
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(8.4);
+    section.pills.forEach((pill) => {
+      const pillWidth = doc.getTextWidth(pill) + 8;
+      if (x + pillWidth > maxX) {
+        x = page.margin + 49;
+        y += 8;
       }
+      doc.setFillColor(45, 31, 80);
+      doc.setDrawColor(...colors.purple);
+      doc.roundedRect(x, y - 5, pillWidth, 6.5, 3, 3, "FD");
+      setTextColor(doc, colors.text);
+      doc.text(pill, x + 4, y - 0.6);
+      x += pillWidth + 3;
+    });
+    y += 4;
+    endSection(top);
+  }
+
+  paintPage();
+  drawCard(page.margin, y, contentWidth, 42);
+  try {
+    const imageData = await loadImageAsDataUrl("pic.jpg");
+    doc.addImage(imageData, "JPEG", page.margin + 5, y + 5, 28, 28);
+  } catch (error) {
+    doc.setFillColor(...colors.cardAlt);
+    doc.roundedRect(page.margin + 5, y + 5, 28, 28, 2, 2, "F");
+  }
+
+  setTextColor(doc, colors.text);
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(25);
+  doc.text(cvData.name, page.margin + 39, y + 15);
+  setTextColor(doc, colors.accent);
+  doc.setFontSize(10);
+  doc.text(cvData.title.toUpperCase(), page.margin + 39, y + 23);
+  doc.setDrawColor(...colors.border);
+  doc.line(page.margin + 39, y + 28, page.width - page.margin - 5, y + 28);
+  setTextColor(doc, colors.muted);
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(8.8);
+  doc.text(`Location: ${cvData.location} | Phone: ${cvData.phone} | Email:`, page.margin + 39, y + 34);
+  setTextColor(doc, colors.link);
+  drawLinkedText(doc, cvData.email, `mailto:${cvData.email}`, page.margin + 119, y + 34);
+  y += 48;
+
+  drawCard(page.margin, y, contentWidth, 17);
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(8.8);
+  setTextColor(doc, colors.subtle);
+  doc.text("CONNECT WITH ME", page.margin + 5, y + 6);
+  setTextColor(doc, colors.link);
+  drawLinkedText(doc, "LinkedIn", cvData.linkedin, page.margin + 5, y + 12.5);
+  drawLinkedText(doc, "GitHub", cvData.github, page.margin + 29, y + 12.5);
+  drawLinkedText(doc, "View Online CV", cvData.onlineCv, page.margin + 50, y + 12.5);
+  y += 22;
+
+  cvData.sections.forEach((section) => {
+    if (section.projects) drawProjectsSection(section);
+    else if (section.items) drawItemsSection(section);
+    else if (section.bullets) drawBulletsSection(section);
+    else if (section.pills) drawPillsSection(section);
+    else drawBodySection(section);
+  });
+
+  for (let i = 1; i <= totalPages; i += 1) {
+    doc.setPage(i);
+    setTextColor(doc, colors.subtle);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(7.5);
+    doc.text(`Rudi Botha - CV | Page ${i} of ${totalPages}`, page.margin, page.height - 5);
+  }
+
+  doc.save("Rudi_Botha_CV.pdf");
+  downloadCv.textContent = originalText;
+  downloadCv.disabled = false;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const downloadCv = document.getElementById("downloadCv");
+  const btn = document.getElementById("backToTop");
+
+  downloadCv.addEventListener("click", () => {
+    generateCvPdf().catch((error) => {
+      console.error(error);
+      downloadCv.textContent = "Download CV";
+      downloadCv.disabled = false;
+      window.alert("Sorry, the CV PDF could not be generated. Please try again.");
+    });
+  });
+
+  window.addEventListener("scroll", () => {
+    btn.classList.toggle("show", window.scrollY > 450);
+  });
+
+  btn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  document.addEventListener("scroll", () => {
+    const sections = document.querySelectorAll("section");
+    sections.forEach((sec) => {
+      const rect = sec.getBoundingClientRect();
+      sec.classList.toggle("active", rect.top >= 0 && rect.top < window.innerHeight / 2);
     });
   });
 });
-
-document.addEventListener("scroll", () => {
-  const sections = document.querySelectorAll("section");
-  sections.forEach(sec => {
-    const rect = sec.getBoundingClientRect();
-    if (rect.top >= 0 && rect.top < window.innerHeight / 2) {
-      sec.classList.add("active");
-    } else {
-      sec.classList.remove("active");
-    }
-  });
-});
-
-
-const scrollTopBtn = document.createElement("button");
-scrollTopBtn.id = "scrollTopBtn";
-scrollTopBtn.innerText = "⬆️";
-document.body.appendChild(scrollTopBtn);
-
-window.onscroll = function () {
-  scrollTopBtn.style.display = window.scrollY > 100 ? "block" : "none";
-};
-
-scrollTopBtn.onclick = () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-};

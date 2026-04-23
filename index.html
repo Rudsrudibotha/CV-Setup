@@ -47,7 +47,7 @@
     </div>
 
     <div class="download-buttons">
-      <button type="button" class="download-btn" id="printCv">Print to PDF</button>
+      <button type="button" class="download-btn" id="downloadCv">Download CV</button>
       <a href="FinalTranscript2025.pdf" download class="download-btn">Download Transcript</a>
     </div>
 
@@ -222,31 +222,7 @@
 <!-- ✅ ADD: Back to Top Button -->
 <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
 
-<script>
-  const printCv = document.getElementById("printCv");
-  printCv.addEventListener("click", () => {
-    window.print();
-  });
-
-  // show/hide button on scroll
-  const btn = document.getElementById("backToTop");
-  window.addEventListener("scroll", () => {
-    btn.classList.toggle("show", window.scrollY > 450);
-  });
-
-  // scroll to top
-  btn.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-
-  // Section highlight
-  document.addEventListener("scroll", () => {
-    const sections = document.querySelectorAll("section");
-    sections.forEach(sec => {
-      const rect = sec.getBoundingClientRect();
-      sec.classList.toggle("active", rect.top >= 0 && rect.top < window.innerHeight / 2);
-    });
-  });
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

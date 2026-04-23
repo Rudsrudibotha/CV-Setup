@@ -568,4 +568,8 @@ a:hover { text-decoration: underline; }
     text-decoration: underline !important;
     text-underline-offset: 2px;
   }
+
+  a[href]::after {
+    content: "" !important;
+  }
 }
