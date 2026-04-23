@@ -31,7 +31,7 @@ const cvData = {
         "Workflow automation and low-code development (Nintex K2, Nintex Automation Cloud, OutSystems)",
         "IT service management and customer experience platforms (Freshdesk, Freshservice)",
         "Asset discovery and dependency mapping (Device42)",
-        "Microsoft Azure Fundamentals, Microsoft BizTalk and SharePoint process automation",
+        "Microsoft Azure Fundamentals and SharePoint process automation",
         "Full-stack web development (HTML, CSS, JavaScript), C#, .NET, SQL Server and MySQL",
         "Software testing, quality assurance, Git/GitHub, Agile and Scrum"
       ]
@@ -52,7 +52,7 @@ const cvData = {
     {
       title: "Work Experience",
       items: [
-        { heading: "Automation Engineer Intern / Software Engineering Intern - First Technology Digital", detail: "Feb 2026 - Present", text: ["Support business process automation and systems integration solutions using Nintex RPA, Nintex K2, Freshdesk, Freshservice, OutSystems, Microsoft BizTalk and Azure.", "Completed 29 platform certifications across Nintex, Freshworks, Device42 and Microsoft Azure Fundamentals to strengthen automation delivery capability.", "Apply workflow analysis, service management and low-code automation knowledge to improve process visibility and operational efficiency."] },
+        { heading: "Automation Engineer Intern / Software Engineering Intern - First Technology Digital", detail: "Feb 2026 - Present", text: ["Support business process automation and systems integration solutions using Nintex RPA, Nintex K2, Freshdesk, Freshservice, OutSystems and Azure.", "Completed 29 platform certifications across Nintex, Freshworks, Device42 and Microsoft Azure Fundamentals to strengthen automation delivery capability.", "Apply workflow analysis, service management and low-code automation knowledge to improve process visibility and operational efficiency."] },
         { heading: "Marketing & Digital Administrator - Adorable Bekkies Academy", detail: "Apr 2023 - Dec 2025", text: ["Managed business marketing, digital presence and website maintenance for an education business.", "Maintained the Adorable Bekkies Academy website and supported online communication with clients and parents.", "Coordinated digital administration tasks to improve consistency across business communication and customer-facing content."] },
         { heading: "Student Advisor & Events Planner - Belgium Campus ITversity", detail: "Jan 2022 - Apr 2023", text: ["Delivered school, expo and open-day presentations that generated 75+ leads per event.", "Coordinated recruitment events, career days and campus activities while supporting student engagement initiatives.", "Managed stakeholder communication with prospective students, schools and internal campus teams."] },
         { heading: "Admin Manager - Adorable Bekkies Academy", detail: "Jan 2019 - Dec 2021", text: ["Streamlined administration, operations and HR processes for a growing education business.", "Reduced operational costs by 18% through planning, supplier coordination and efficiency improvements.", "Managed budgeting, purchasing and staff development programs to support daily operations."] },
@@ -81,7 +81,7 @@ const cvData = {
     },
     {
       title: "Key Skills",
-      pills: ["Automation Engineering", "Business Process Automation", "Nintex RPA", "Nintex K2", "Nintex Automation Cloud", "Nintex Process Automation", "Freshdesk", "Freshservice", "Device42", "SharePoint", "Microsoft Azure Fundamentals", "Microsoft BizTalk", "OutSystems", "C#", ".NET", "SQL Server", "MySQL", "HTML", "CSS", "JavaScript", "GitHub", "Agile", "Scrum", "Software Testing"]
+      pills: ["Automation Engineering", "Business Process Automation", "Nintex RPA", "Nintex K2", "Nintex Automation Cloud", "Nintex Process Automation", "Freshdesk", "Freshservice", "Device42", "SharePoint", "Microsoft Azure Fundamentals", "OutSystems", "C#", ".NET", "SQL Server", "MySQL", "HTML", "CSS", "JavaScript", "GitHub", "Agile", "Scrum", "Software Testing"]
     }
   ]
 };
