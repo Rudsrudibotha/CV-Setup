@@ -143,9 +143,22 @@ async function generateCvPdf() {
     muted: [55, 65, 81],
     subtle: [100, 116, 139],
     accent: [45, 93, 145],
-    link: [37, 99, 235],
-    purple: [124, 58, 237]
+    link: [37, 99, 235]
   };
+  const layout = {
+    sectionContentTop: 10,
+    sectionBottomPad: 5,
+    blockX: page.margin + 47,
+    blockWidth: contentWidth - 52,
+    blockPadX: 4,
+    blockPadTop: 5.3,
+    blockPadBottom: 3,
+    itemGap: 3,
+    entryGap: 2.4,
+    bulletIndent: 4
+  };
+  layout.textX = layout.blockX + layout.blockPadX;
+  layout.textWidth = layout.blockWidth - layout.blockPadX * 2;
 
   let y = page.margin;
   let totalPages = 1;
@@ -175,6 +188,29 @@ async function generateCvPdf() {
     doc.roundedRect(x, top, width, height, 3, 3, "S");
   }
 
+  function drawContentCard(top, height) {
+    drawCard(layout.blockX, top, layout.blockWidth, height, colors.cardAlt);
+  }
+
+  function contentBlockHeight(advance, minHeight = 12) {
+    return Math.max(minHeight, layout.blockPadTop + advance + layout.blockPadBottom);
+  }
+
+  function drawContentBlock(height, drawContent) {
+    const blockTop = y;
+    drawContentCard(blockTop, height);
+    y = blockTop + layout.blockPadTop;
+    drawContent(layout.textX, layout.textWidth);
+    y = blockTop + height + layout.itemGap;
+  }
+
+  function drawEntrySeparator(textX, textWidth) {
+    y += 0.8;
+    doc.setDrawColor(...colors.border);
+    doc.line(textX, y, textX + textWidth, y);
+    y += 1.6;
+  }
+
   function drawLinkedButton(text, url, x, top) {
     doc.setFont("helvetica", "bold");
     doc.setFontSize(8.6);
@@ -194,9 +230,86 @@ async function generateCvPdf() {
     doc.text(title.toUpperCase(), page.margin + 5, top + 6);
   }
 
+  const regularHeadingItems = new Set(["Certifications", "University of South Africa", "Freshworks", "Microsoft", "Nintex"]);
+
+  function estimateBodyBlockHeight(section) {
+    let advance = 0;
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9.4);
+
+    (section.body || []).forEach((text) => {
+      advance += estimateTextHeight(doc, text, layout.textWidth, 4.4) + 1;
+    });
+
+    if (section.links) advance += section.links.length * 4.8;
+    return contentBlockHeight(advance, 13);
+  }
+
+  function estimateBulletsBlockHeight(section) {
+    let advance = 0;
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9.4);
+
+    section.bullets.forEach((bullet) => {
+      advance += estimateTextHeight(doc, bullet, layout.textWidth - layout.bulletIndent, 4.2) + 0.5;
+    });
+
+    return contentBlockHeight(advance, 13);
+  }
+
+  function estimateItemEntryHeight(item, section) {
+    let advance = 0;
+
+    if (item.heading) {
+      doc.setFont("helvetica", section.title === "Education" || section.title === "Work Experience" || regularHeadingItems.has(item.heading) ? "normal" : "bold");
+      doc.setFontSize(9.5);
+      advance += estimateTextHeight(doc, item.heading, layout.textWidth, 4.2) + 0.5;
+    }
+
+    if (item.detail && item.url) {
+      advance += 6;
+    } else if (item.detail) {
+      doc.setFont("helvetica", "italic");
+      doc.setFontSize(8.6);
+      advance += estimateTextHeight(doc, item.detail, layout.textWidth, 4) + 0.5;
+    }
+
+    if (item.links) advance += item.links.length * 4.5;
+
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(8.9);
+    (item.text || []).forEach((text) => {
+      advance += estimateTextHeight(doc, text, layout.textWidth, 4) + 0.5;
+    });
+    (item.bullets || []).forEach((bullet) => {
+      advance += estimateTextHeight(doc, bullet, layout.textWidth - layout.bulletIndent, 4) + 0.5;
+    });
+
+    return Math.max(6, advance);
+  }
+
+  function estimateItemsBlockHeight(section) {
+    const entriesHeight = section.items.reduce((sum, item) => sum + estimateItemEntryHeight(item, section), 0);
+    const separatorsHeight = Math.max(section.items.length - 1, 0) * layout.entryGap;
+    return contentBlockHeight(entriesHeight + separatorsHeight, 13);
+  }
+
+  function estimateProjectEntryHeight(project) {
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(8.6);
+    const summaryHeight = estimateTextHeight(doc, project.text, layout.textWidth, 3.8);
+    return Math.max(10, 4.2 + 4.1 + summaryHeight + 0.5);
+  }
+
+  function estimateProjectsBlockHeight(section) {
+    const entriesHeight = section.projects.reduce((sum, project) => sum + estimateProjectEntryHeight(project), 0);
+    const separatorsHeight = Math.max(section.projects.length - 1, 0) * layout.entryGap;
+    return contentBlockHeight(entriesHeight + separatorsHeight, 18);
+  }
+
   function estimatePillsHeight(pills) {
-    const startX = page.margin + 49;
-    const maxX = page.width - page.margin - 5;
+    const startX = layout.textX;
+    const maxX = layout.blockX + layout.blockWidth - layout.blockPadX;
     let x = startX;
     let rows = 1;
 
@@ -212,39 +325,25 @@ async function generateCvPdf() {
       x += pillWidth + 3;
     });
 
-    return rows * 8 + 8;
+    return contentBlockHeight(rows * 8, 14);
   }
 
   function sectionHeight(section) {
-    const bodyX = page.margin + 49;
-    const bodyWidth = contentWidth - 54;
-    let height = 15;
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(9.4);
+    let height = layout.sectionContentTop + layout.sectionBottomPad;
+    let blockCount = 0;
 
-    if (section.body) {
-      section.body.forEach((text) => {
-        height += estimateTextHeight(doc, text, bodyWidth, 4.4) + 1;
-      });
+    function addBlock(blockHeight) {
+      height += blockHeight + layout.itemGap;
+      blockCount += 1;
     }
-    if (section.links) height += section.links.length * 4.8 + 1;
-    if (section.bullets) height += section.bullets.reduce((sum, bullet) => sum + estimateTextHeight(doc, bullet, bodyWidth - 4, 4.2), 0) + 2;
-    if (section.items) {
-      section.items.forEach((item) => {
-        if (item.heading) height += estimateTextHeight(doc, item.heading, bodyWidth, 4.2) + 4.2;
-        if (item.detail) height += estimateTextHeight(doc, item.detail, bodyWidth, 4) + 0.5;
-        if (item.links) height += item.links.length * 4.5 + 0.5;
-        (item.text || []).forEach((text) => {
-          height += estimateTextHeight(doc, text, bodyWidth, 4) + 0.5;
-        });
-        (item.bullets || []).forEach((bullet) => {
-          height += estimateTextHeight(doc, bullet, bodyWidth - 4, 4) + 0.5;
-        });
-        height += 6;
-      });
-    }
-    if (section.projects) height += section.projects.length * 25 + 3;
-    if (section.pills) height += estimatePillsHeight(section.pills);
+
+    if (section.body || section.links) addBlock(estimateBodyBlockHeight(section));
+    if (section.bullets) addBlock(estimateBulletsBlockHeight(section));
+    if (section.items) addBlock(estimateItemsBlockHeight(section));
+    if (section.projects) addBlock(estimateProjectsBlockHeight(section));
+    if (section.pills) addBlock(estimatePillsHeight(section.pills));
+    if (blockCount > 0) height -= layout.itemGap;
+
     return Math.max(height, 25);
   }
 
@@ -254,133 +353,135 @@ async function generateCvPdf() {
     const top = y;
     drawCard(page.margin, top, contentWidth, height);
     drawSectionTitle(section.title, top);
-    y = top + 14;
+    y = top + layout.sectionContentTop;
     return top;
   }
 
   function endSection(top) {
-    y = Math.max(y, top + 20) + 5;
+    y = Math.max(y - layout.itemGap + layout.sectionBottomPad, top + 20) + 5;
   }
 
   function drawBodySection(section) {
     const top = beginSection(section);
-    const bodyX = page.margin + 49;
-    const bodyWidth = contentWidth - 54;
-    setTextColor(doc, colors.text);
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(9.4);
-    (section.body || []).forEach((text) => {
-      y = drawWrappedText(doc, text, bodyX, y, bodyWidth, 4.4) + 1;
-    });
-    (section.links || []).forEach((link) => {
-      setTextColor(doc, colors.link);
-      doc.setFont("helvetica", "bold");
-      drawLinkedText(doc, link.label, link.url, bodyX, y);
-      y += 4.8;
+    drawContentBlock(estimateBodyBlockHeight(section), (textX, textWidth) => {
+      setTextColor(doc, colors.text);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(9.4);
+      (section.body || []).forEach((text) => {
+        y = drawWrappedText(doc, text, textX, y, textWidth, 4.4) + 1;
+      });
+      (section.links || []).forEach((link) => {
+        setTextColor(doc, colors.link);
+        doc.setFont("helvetica", "bold");
+        drawLinkedText(doc, link.label, link.url, textX, y);
+        y += 4.8;
+      });
     });
     endSection(top);
   }
 
   function drawBulletsSection(section) {
     const top = beginSection(section);
-    const bodyX = page.margin + 49;
-    const bodyWidth = contentWidth - 58;
-    setTextColor(doc, colors.text);
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(9.4);
-    section.bullets.forEach((bullet) => {
-      doc.circle(bodyX, y - 1.2, 0.65, "F");
-      y = drawWrappedText(doc, bullet, bodyX + 4, y, bodyWidth, 4.2);
+    drawContentBlock(estimateBulletsBlockHeight(section), (textX, textWidth) => {
+      setTextColor(doc, colors.text);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(9.4);
+      section.bullets.forEach((bullet) => {
+        doc.setFillColor(...colors.accent);
+        doc.circle(textX, y - 1.2, 0.65, "F");
+        y = drawWrappedText(doc, bullet, textX + layout.bulletIndent, y, textWidth - layout.bulletIndent, 4.2) + 0.5;
+      });
     });
     endSection(top);
   }
 
   function drawItemsSection(section) {
     const top = beginSection(section);
-    const bodyX = page.margin + 49;
-    const bodyWidth = contentWidth - 54;
-    const regularHeadingItems = new Set(["Certifications", "University of South Africa", "Freshworks", "Microsoft", "Nintex"]);
-    section.items.forEach((item) => {
-      if (item.heading) {
+    drawContentBlock(estimateItemsBlockHeight(section), (textX, textWidth) => {
+      section.items.forEach((item, index) => {
+        if (item.heading) {
+          setTextColor(doc, colors.text);
+          doc.setFont("helvetica", section.title === "Education" || section.title === "Work Experience" || regularHeadingItems.has(item.heading) ? "normal" : "bold");
+          doc.setFontSize(9.5);
+          y = drawWrappedText(doc, item.heading, textX, y, textWidth, 4.2) + 0.5;
+        }
+        setTextColor(doc, colors.subtle);
+        doc.setFont("helvetica", "italic");
+        doc.setFontSize(8.6);
+        if (item.detail && item.url) {
+          drawLinkedButton(item.detail, item.url, textX, y - 4.5);
+          y += 6;
+        } else if (item.detail) {
+          y = drawWrappedText(doc, item.detail, textX, y, textWidth, 4) + 0.5;
+        }
+        (item.links || []).forEach((link) => {
+          setTextColor(doc, colors.link);
+          doc.setFont("helvetica", "bold");
+          drawLinkedText(doc, link.label, link.url, textX, y);
+          y += 4.5;
+        });
         setTextColor(doc, colors.text);
-        doc.setFont("helvetica", section.title === "Education" || section.title === "Work Experience" || regularHeadingItems.has(item.heading) ? "normal" : "bold");
-        doc.setFontSize(9.5);
-        y = drawWrappedText(doc, item.heading, bodyX, y, bodyWidth, 4.2);
-      }
-      setTextColor(doc, colors.subtle);
-      doc.setFont("helvetica", "italic");
-      doc.setFontSize(8.6);
-      if (item.detail && item.url) {
-        drawLinkedButton(item.detail, item.url, bodyX, y - 4.5);
-        y += 6;
-      } else if (item.detail) {
-        y = drawWrappedText(doc, item.detail, bodyX, y, bodyWidth, 4) + 0.5;
-      }
-      (item.links || []).forEach((link) => {
-        setTextColor(doc, colors.link);
-        doc.setFont("helvetica", "bold");
-        drawLinkedText(doc, link.label, link.url, bodyX, y);
-        y += 4.5;
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(8.9);
+        (item.text || []).forEach((text) => {
+          y = drawWrappedText(doc, text, textX, y, textWidth, 4) + 0.5;
+        });
+        (item.bullets || []).forEach((bullet) => {
+          doc.setFillColor(...colors.accent);
+          doc.circle(textX, y - 1.2, 0.55, "F");
+          y = drawWrappedText(doc, bullet, textX + layout.bulletIndent, y, textWidth - layout.bulletIndent, 4) + 0.5;
+        });
+        if (index < section.items.length - 1) drawEntrySeparator(textX, textWidth);
       });
-      setTextColor(doc, colors.text);
-      doc.setFont("helvetica", "normal");
-      doc.setFontSize(8.9);
-      (item.text || []).forEach((text) => {
-        y = drawWrappedText(doc, text, bodyX, y, bodyWidth, 4) + 0.5;
-      });
-      (item.bullets || []).forEach((bullet) => {
-        doc.circle(bodyX, y - 1.2, 0.55, "F");
-        y = drawWrappedText(doc, bullet, bodyX + 4, y, bodyWidth - 4, 4) + 0.5;
-      });
-      y += 3;
     });
     endSection(top);
   }
 
   function drawProjectsSection(section) {
     const top = beginSection(section);
-    const bodyX = page.margin + 49;
-    const bodyWidth = contentWidth - 58;
-    section.projects.forEach((project) => {
-      drawCard(bodyX - 2, y - 4, bodyWidth + 6, 22, colors.cardAlt);
-      setTextColor(doc, colors.link);
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(9);
-      drawLinkedText(doc, project.heading, project.url, bodyX, y);
-      y += 4.2;
-      setTextColor(doc, colors.subtle);
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(8.3);
-      doc.text(project.detail, bodyX, y);
-      y += 4.1;
-      setTextColor(doc, colors.text);
-      doc.setFont("helvetica", "normal");
-      doc.setFontSize(8.6);
-      y = drawWrappedText(doc, project.text, bodyX, y, bodyWidth, 3.8) + 6;
+    drawContentBlock(estimateProjectsBlockHeight(section), (textX, textWidth) => {
+      section.projects.forEach((project, index) => {
+        setTextColor(doc, colors.link);
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(9);
+        drawLinkedText(doc, project.heading, project.url, textX, y);
+        y += 4.2;
+        setTextColor(doc, colors.subtle);
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(8.3);
+        doc.text(project.detail, textX, y);
+        y += 4.1;
+        setTextColor(doc, colors.text);
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(8.6);
+        y = drawWrappedText(doc, project.text, textX, y, textWidth, 3.8) + 0.5;
+        if (index < section.projects.length - 1) drawEntrySeparator(textX, textWidth);
+      });
     });
     endSection(top);
   }
 
   function drawPillsSection(section) {
     const top = beginSection(section);
-    let x = page.margin + 49;
-    const maxX = page.width - page.margin - 5;
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(8.4);
-    section.pills.forEach((pill) => {
-      const pillWidth = doc.getTextWidth(pill) + 8;
-      if (x + pillWidth > maxX) {
-        x = page.margin + 49;
-        y += 8;
-      }
-      doc.setFillColor(245, 243, 255);
-      doc.setDrawColor(196, 181, 253);
-      doc.roundedRect(x, y - 5, pillWidth, 6.5, 3, 3, "FD");
-      setTextColor(doc, [76, 29, 149]);
-      doc.text(pill, x + 4, y - 0.6);
-      x += pillWidth + 3;
+    drawContentBlock(estimatePillsHeight(section.pills), (textX) => {
+      let x = textX;
+      const maxX = layout.blockX + layout.blockWidth - layout.blockPadX;
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8.4);
+      section.pills.forEach((pill) => {
+        const pillWidth = doc.getTextWidth(pill) + 8;
+        if (x > textX && x + pillWidth > maxX) {
+          x = textX;
+          y += 8;
+        }
+        doc.setFillColor(237, 242, 247);
+        doc.setDrawColor(...colors.border);
+        doc.roundedRect(x, y - 5, pillWidth, 6.5, 3, 3, "FD");
+        setTextColor(doc, colors.accent);
+        doc.text(pill, x + 4, y - 0.6);
+        x += pillWidth + 3;
+      });
     });
-    y += 4;
     endSection(top);
   }
 
